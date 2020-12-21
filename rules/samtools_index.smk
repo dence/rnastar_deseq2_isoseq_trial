@@ -3,10 +3,10 @@
 
 rule samtools_index:
 	input:
-		"results/merged_lane_bams/{sample}.merged.bam"
+		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"
 	output:
-		"results/merged_lane_bams/{sample}.merged.bam.bai"
+		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai"
 	log:
-		"logs/samtools_index_sorted.{sample}.log"
+		"logs/star.{sample}-{unit}.log"
 	shell:
 		"unset TMPDIR; module load samtools; samtools index {input}"
