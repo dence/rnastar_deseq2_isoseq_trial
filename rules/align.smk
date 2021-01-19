@@ -16,7 +16,8 @@ rule star_align:
 		sample=get_fq
 	output:
         # see STAR manual for additional output files
-		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"
+		bam="results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
+		star_output="results/star/{sample}-{unit}.Log.final.out"
 	log:
 		"logs/star/{sample}-{unit}.log"
 	params:
