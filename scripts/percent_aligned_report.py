@@ -16,6 +16,10 @@ def get_number_of_reads_in_cat(star_log_file, target_string):
 
 def get_sample_counts(star_log_file):
 
+	#print("in get sample counts")
+	#print("this is star log file")
+	#print(star_log_file)
+
 	curr_file_counts = []
 	target_strings = ["Number of input reads",
 	"Uniquely mapped reads number",
@@ -27,7 +31,7 @@ def get_sample_counts(star_log_file):
 
 	for string in target_strings:
 		curr_file_counts.append(
-			get_number_of_reads_in_cat(star_log_file,target_string))
+			get_number_of_reads_in_cat(star_log_file,string))
 
 	counts = pd.DataFrame(curr_file_counts)
 	counts = counts.transpose()
@@ -38,22 +42,25 @@ def get_sample_counts(star_log_file):
 ############################################################
 
 
-star_logs = snakemake.input
-aligned_percent = [get_sample_star_aligned(f)
+star_logs = np.unique(snakemake.input)
+#print("Passing this to get_sample_counts")
+#print(star_logs)
+#print(len(star_logs))
+counts = [get_sample_counts(f)
 			for f in star_logs]
 
 samples = snakemake.params.samples
-print("checking sample order in the python script")
-print(samples)
+#print("checking sample order in the python script")
+#print(samples)
 for t, sample in zip(counts, samples):
 	t.columns = [sample]
-print("checking sample order in the python script after the zip")
-for t in counts:
-	print(t.columns)
+#print("checking sample order in the python script after the zip")
+#for t in counts:
+#	print(t.columns)
 matrix = pd.concat(counts, axis=1)
 matrix.index.name = "gene"
-print(matrix.columns)
+#print(matrix.columns)
 matrix = matrix.groupby(matrix.columns, axis=1).sum()
-print("Checking columns in matrix")
-print(matrix.columns)
+#print("Checking columns in matrix")
+#print(matrix.columns)
 matrix.to_csv(snakemake.output[0], sep="\t")

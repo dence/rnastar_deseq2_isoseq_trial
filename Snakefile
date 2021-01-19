@@ -24,6 +24,7 @@ def all_input(wildcards):
 				"results/diffexp/{contrast}.ma-plot.svg"],
 				contrast=config["diffexp"]["contrasts"]))
 	wanted_input.extend(["results/pca.svg"])
+	wanted_input.extend(["results/reports/star_percent_aligned_report.txt"])
 	#wanted_input.extend(["results/pca.svg","qc/multiqc_report.html"])
 	return wanted_input
 
