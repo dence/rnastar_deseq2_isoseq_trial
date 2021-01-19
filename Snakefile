@@ -17,7 +17,7 @@ min_version("5.1.2")
 def all_input(wildcards):
 	wanted_input = []
 	wanted_input.extend(
-		expand(["results/star/{sample}-{unit}.sortedByCoord.Aligned.out.bam"],
+		expand(["results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"],
 			sample=units["sample"],unit=units["unit"]))
 	wanted_input.extend(
 			expand(["results/diffexp/{contrast}.diffexp.tsv",

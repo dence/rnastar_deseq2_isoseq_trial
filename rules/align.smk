@@ -16,12 +16,12 @@ rule star_align:
 		sample=get_fq
 	output:
         # see STAR manual for additional output files
-		"results/star/{sample}-{unit}.sortedByCoord.Aligned.out.bam"
+		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"
 	log:
 		"logs/star/{sample}-{unit}.log"
 	params:
 		# path to STAR reference genome index
-		star_dir="results/star/{sample}-{unit}",
+		star_dir="results/star/{sample}-{unit}.",
 		index=config["ref"]["index"],
         # optional parameters
 		extra=config["params"]["star"]
