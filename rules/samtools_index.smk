@@ -3,9 +3,9 @@
 
 rule samtools_index:
 	input:
-		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam"
+		"results/star/{sample}-{unit}.sortedByCoord.Aligned.out.bam"
 	output:
-		"results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam.bai"
+		"results/star/{sample}-{unit}.sortedByCoord.Aligned.out.bam"
 	log:
 		"logs/star.{sample}-{unit}.log"
 	shell:
