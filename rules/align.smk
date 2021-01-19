@@ -16,7 +16,7 @@ rule star_align:
 		sample=get_fq
 	output:
         # see STAR manual for additional output files
-		"results/star/{sample}-{unit}.Aligned.out.bam"
+		"results/star/{sample}-{unit}.sortedByCoord.Aligned.out.bam"
 	log:
 		"logs/star/{sample}-{unit}.log"
 	params:
@@ -32,5 +32,5 @@ rule star_align:
 	shell:
 		"unset TMPDIR; module load star/2.7.5c; set -euo pipefail;  " +
 		"STAR --readFilesCommand zcat {params.extra} --runThreadN {threads} --genomeDir {params.index} " +
-		"--readFilesIn {input.sample} --outSAMtype BAM Unsorted " +
+		"--readFilesIn {input.sample} --outSAMtype BAM SortedByCoordinate " +
 		"--outFileNamePrefix {params.star_dir} --outStd Log  > {log} 2>&1"
