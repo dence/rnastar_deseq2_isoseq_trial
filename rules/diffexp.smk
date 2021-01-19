@@ -7,8 +7,8 @@ def get_strandness(units):
 
 rule count_matrix:
 	input:
-		bams=expand("results/star/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-		bai=expand("results/star/{unit.sample}-{unit.unit}.Aligned.sortedByCoord.out.bam.bai", unit=units.itertuples())
+		bams=expand("results/star/{unit.sample}-{unit.unit}.sortedByCoord.Aligned.out.bam", unit=units.itertuples()),
+		bai=expand("results/star/{unit.sample}-{unit.unit}.sortedByCoord.Aligned.out.bam.bai", unit=units.itertuples())
 	output:
 		"results/counts/all.tsv"
 	params:
@@ -43,7 +43,7 @@ rule deseq2_init:
 	shell:
 		"""
 		module load R;
-		Rscript ../scripts/deseq2-init.R {input.counts} {output} {params.samples} {log} {threads} 
+		Rscript ../scripts/deseq2-init.R {input.counts} {output} {params.samples} {log} {threads}
 		"""
 
 rule pca:
