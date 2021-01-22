@@ -7,7 +7,7 @@ samples: samples.tsv
 # protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse`
 # which is referenced in STAR manual section 7, "Counting number of reads per gene".
 
-units: units.tsv
+units: Jan_2021_units.tsv
 
 trimming:
   # skip trimming: false or true
@@ -19,15 +19,17 @@ ref:
   # the STAR index
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/v2.01_genome_annots_index"
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/t3352.cdna.v1.contig"
-  index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9"
+  #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9" #This was an index built on a wrong version of the improved txome. DE Jan 21, 2021
+  index: /home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9/ #This is the correct improved txome version. DE Jan 21, 2021
   #index: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/PacBio"
-
+  spike_in_ref: "/home/d.ence/d.ence_peter_share/pinus_taeda_L/MeJA_time_course_experiment/rnastar_deseq2_isoseq_trial_Jan_2021/SIRV_set3_ref/"
     #"Miami_of_Ohio": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/t3352.cdna.v1.contig"
     #"PacBio": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/PacBio"
     #"Clustered": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/clustered_longer_than_500.est_0.9"
     #"v2.01_annnotations": "/home/d.ence/d.ence_peter_share/pinus_taeda_L/reanalysis_old_RNAseq/rna-seq-star-deseq2/star_indices/v2.01_genome_annots_index"
   # gtf file with transcripts
   #annotation: "path/to/annotation.gtf"
+
 
 pca:
   labels:

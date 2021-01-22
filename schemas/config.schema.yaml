@@ -23,10 +23,13 @@ properties:
     properties:
       index:
         type: string
+      spike_in_ref:
+        type: string
       annotation:
         type: string
     required:
       - index
+      - spike_in_ref
       #- annotation
 
   pca:

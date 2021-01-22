@@ -37,11 +37,10 @@ def get_sample_counts(star_log_file):
 	counts = counts.transpose()
 	counts.columns=target_strings
 	counts = counts.transpose()
+
 	return counts
 
 ############################################################
-
-
 star_logs = np.unique(snakemake.input)
 #print("Passing this to get_sample_counts")
 #print(star_logs)
@@ -61,6 +60,11 @@ matrix = pd.concat(counts, axis=1)
 matrix.index.name = "gene"
 #print(matrix.columns)
 matrix = matrix.groupby(matrix.columns, axis=1).sum()
+matrix = matrix.transpose()
 #print("Checking columns in matrix")
 #print(matrix.columns)
+matrix["proportion_of_library_reads_out_of_all_reads"] = \
+	matrix["Number of input reads"] / matrix["Number of input reads"].sum()
+matrix["percent_of_library_reads_mapped"] = \
+	(matrix["Uniquely mapped reads number"] + matrix["Number of reads mapped to multiple loci"]) / matrix["Number of input reads"]
 matrix.to_csv(snakemake.output[0], sep="\t")

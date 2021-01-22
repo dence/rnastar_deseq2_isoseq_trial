@@ -11,6 +11,26 @@ def get_fq(wildcards):
         # single end sample
 		return "results/trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
 
+rule spike_in_align:
+	input:
+		sample=get_fq
+	output:
+		bam="results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
+		star_output="results/star_spike_in/{sample}-{unit}.Log.final.out"
+	log:
+		"logs/spike_in_align/{sample}-{unit}.log"
+	params:
+		star_prefix="results/star_spike_in/{sample}-{unit}.",
+		index=config["ref"]["spike_in_ref"],
+		extra=config["params"]["star"]
+	threads:
+		10
+	shell:
+		"unset TMPDIR; module load star/2.7.5c; set -euo pipefail;  " +
+		"STAR --readFilesCommand zcat {params.extra} --runThreadN {threads} --genomeDir {params.index} " +
+		"--readFilesIn {input.sample} --outSAMtype BAM SortedByCoordinate " +
+		"--outFileNamePrefix {params.star_prefix} --outStd Log  > {log} 2>&1"
+
 rule star_align:
 	input:
 		sample=get_fq
@@ -22,7 +42,7 @@ rule star_align:
 		"logs/star/{sample}-{unit}.log"
 	params:
 		# path to STAR reference genome index
-		star_dir="results/star/{sample}-{unit}.",
+		star_prefix="results/star/{sample}-{unit}.",
 		index=config["ref"]["index"],
         # optional parameters
 		extra=config["params"]["star"]
@@ -34,4 +54,4 @@ rule star_align:
 		"unset TMPDIR; module load star/2.7.5c; set -euo pipefail;  " +
 		"STAR --readFilesCommand zcat {params.extra} --runThreadN {threads} --genomeDir {params.index} " +
 		"--readFilesIn {input.sample} --outSAMtype BAM SortedByCoordinate " +
-		"--outFileNamePrefix {params.star_dir} --outStd Log  > {log} 2>&1"
+		"--outFileNamePrefix {params.star_prefix} --outStd Log  > {log} 2>&1"
