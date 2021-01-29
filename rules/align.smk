@@ -1,19 +1,10 @@
-def get_fq(wildcards):
-	if config["trimming"]["skip"]:
-		# no trimming, use raw reads
-		return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
-	else:
-		# yes trimming, use trimmed data
-		if not is_single_end(**wildcards):
-			# paired-end sample
-			return expand("results/trimmed/{sample}-{unit}.{group}.fastq.gz",
-				group=[1, 2], **wildcards)
-        # single end sample
-		return "results/trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
+include: "common.smk"
+
 
 rule spike_in_align:
 	input:
-		sample=get_fq
+		fastq1="results/trimmed/{sample}-{unit}.1.fastq.gz",
+		fastq2="results/trimmed/{sample}-{unit}.2.fastq.gz"
 	output:
 		bam="results/star_spike_in/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
 		star_output="results/star_spike_in/{sample}-{unit}.Log.final.out"
@@ -28,12 +19,13 @@ rule spike_in_align:
 	shell:
 		"unset TMPDIR; module load star/2.7.5c; set -euo pipefail;  " +
 		"STAR --readFilesCommand zcat {params.extra} --runThreadN {threads} --genomeDir {params.index} " +
-		"--readFilesIn {input.sample} --outSAMtype BAM SortedByCoordinate " +
+		"--readFilesIn {input.fastq1} {input.fastq2} --outSAMtype BAM SortedByCoordinate " +
 		"--outFileNamePrefix {params.star_prefix} --outStd Log  > {log} 2>&1"
 
 rule star_align:
 	input:
-		sample=get_fq
+		fastq1="results/trimmed/{sample}-{unit}.1.fastq.gz",
+		fastq2="results/trimmed/{sample}-{unit}.2.fastq.gz"
 	output:
         # see STAR manual for additional output files
 		bam="results/star/{sample}-{unit}.Aligned.sortedByCoord.out.bam",
@@ -47,11 +39,8 @@ rule star_align:
         # optional parameters
 		extra=config["params"]["star"]
 	threads: 24
-    #wrapper:
-    #    "0.19.4/bio/star/align"
-
 	shell:
 		"unset TMPDIR; module load star/2.7.5c; set -euo pipefail;  " +
 		"STAR --readFilesCommand zcat {params.extra} --runThreadN {threads} --genomeDir {params.index} " +
-		"--readFilesIn {input.sample} --outSAMtype BAM SortedByCoordinate " +
+		"--readFilesIn {input.fastq1} {input.fastq2} --outSAMtype BAM SortedByCoordinate " +
 		"--outFileNamePrefix {params.star_prefix} --outStd Log  > {log} 2>&1"

@@ -28,3 +28,16 @@ wildcard_constraints:
 
 def is_single_end(sample, unit):
     return pd.isnull(units.loc[(sample, unit), "fq2"])
+
+def get_fq(wildcards):
+	if config["trimming"]["skip"]:
+		# no trimming, use raw reads
+		return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+	else:
+		# yes trimming, use trimmed data
+		if not is_single_end(**wildcards):
+			# paired-end sample
+			return expand("results/trimmed/{sample}-{unit}.{group}.fastq.gz",
+				group=[1, 2], **wildcards)
+        # single end sample
+		return "results/trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
