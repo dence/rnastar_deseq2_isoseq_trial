@@ -19,6 +19,20 @@ rule count_matrix:
 	script:
 		"../scripts/count-matrix-bams.py"
 
+rule count_matrix_with_reps:
+	input:
+		bams=expand("results/star/{unit.sample}-{unit.unit}-{unit.rep}.Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+		bai=expand("results/star/{unit.sample}-{unit.unit}-{unit.rep}.Aligned.sortedByCoord.out.bam.bai", unit=units.itertuples())
+	output:
+		"results/counts/counts_with_reps.tsv"
+	params:
+		samples=units["sample"].tolist(),
+		ref=config["ref"]["index"]
+	conda:
+		"../envs/pandas.yaml"
+	script:
+		"../scripts/count-matrix-bams.py"
+
 
 def get_deseq2_threads(wildcards=None):
 	# https://twitter.com/mikelove/status/918770188568363008

@@ -5,6 +5,7 @@ import pysam
 import pandas as pd
 import numpy as np
 
+
 def get_sample_counts(bam_file, reference):
 
 	bamfile_obj = pysam.AlignmentFile(bam_file,'rb')

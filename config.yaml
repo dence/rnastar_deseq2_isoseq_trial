@@ -7,7 +7,11 @@ samples: samples.tsv
 # protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse`
 # which is referenced in STAR manual section 7, "Counting number of reads per gene".
 
-units: Jan_2021_units.tsv
+#units: Dec_2020_units.tsv
+#units: Jan_2021_units.tsv
+units: Jan_29_2021_units.tsv
+
+
 
 trimming:
   # skip trimming: false or true
@@ -56,7 +60,7 @@ diffexp:
 #https://github.com/alexdobin/STAR/issues/123
 params:
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000"
-  star: "--alignEndsType EndToEnd --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 --outFilterMismatchNmax 3 "
+  star: "--alignEndsType EndToEnd --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 --outFilterMismatchNmax 2 "
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterMismatchNmax 2"
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 "
   #star: "--alignEndsType EndToEnd --alignIntronMax 1 --alignIntronMin 2 --scoreDelOpen -10000 --scoreInsOpen -10000 --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 0 --outFilterMismatchNmax 2 "

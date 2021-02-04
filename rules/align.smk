@@ -12,7 +12,7 @@ rule spike_in_align:
 		"logs/spike_in_align/{sample}-{unit}.log"
 	params:
 		star_prefix="results/star_spike_in/{sample}-{unit}.",
-		index=config["ref"]["spike_in_ref"],
+		index=config["ref"]["spike_in_index"],
 		extra=config["params"]["star"]
 	threads:
 		10
